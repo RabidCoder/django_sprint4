@@ -2,6 +2,8 @@ from django.db import models
 
 
 class BaseBlogModel(models.Model):
+    """Базовая модель."""
+
     created_at = models.DateTimeField(
         'Добавлено', auto_now_add=True
     )

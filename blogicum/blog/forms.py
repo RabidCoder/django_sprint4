@@ -5,6 +5,7 @@ from .models import Comment, Post, User
 
 
 class CommentForm(ModelForm):
+    """Форма редактирования комментария."""
 
     class Meta:
         model = Comment
@@ -13,6 +14,7 @@ class CommentForm(ModelForm):
 
 
 class PostForm(ModelForm):
+    """Форма редактирования поста."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -39,6 +41,7 @@ class PostForm(ModelForm):
 
 
 class ProfileForm(ModelForm):
+    """Форма редактирования информации о пользователе."""
 
     class Meta:
         model = User

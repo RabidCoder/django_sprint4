@@ -6,7 +6,8 @@ from blog.models import Post
 
 
 def post_all_query():
-    query_set = (
+    """Вернуть все посты."""
+    return (
         Post.objects.select_related(
             'category',
             'location',
@@ -15,24 +16,23 @@ def post_all_query():
         .annotate(comment_count=Count('comments'))
         .order_by('-pub_date')
     )
-    return query_set
 
 
 def post_published_query():
-    query_set = post_all_query().filter(
+    """Вернуть опубликованные посты."""
+    return post_all_query().filter(
         pub_date__lte=now(),
         is_published=True,
         category__is_published=True,
     )
-    return query_set
 
 
-def get_post_data(post_data):
-    post = get_object_or_404(
+def get_post_data(pk):
+    """Вернуть данные поста."""
+    return get_object_or_404(
         Post,
-        pk=post_data["pk"],
+        pk=pk,
         pub_date__lte=now(),
         is_published=True,
         category__is_published=True,
     )
-    return post

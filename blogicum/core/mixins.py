@@ -6,16 +6,21 @@ from blog.models import Comment, Post
 
 
 class CommentMixin(LoginRequiredMixin):
+    """Mixin для создания, редактирования и удаления комментария."""
+
     model = Comment
     template_name = 'blog/comment.html'
 
 
 class PostMixin(LoginRequiredMixin):
+    """Mixin для создания, редактирования и удаления поста."""
+
     model = Post
     template_name = 'blog/create.html'
 
 
 class DispatchMixin:
+    """Mixin проверки пользователя на авторство."""
 
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().author != self.request.user:
@@ -24,6 +29,7 @@ class DispatchMixin:
 
 
 class GetSuccessUrlPostDetail:
+    """Mixin перехода на страницу поста."""
 
     def get_success_url(self):
         pk = self.kwargs['pk']
@@ -31,6 +37,8 @@ class GetSuccessUrlPostDetail:
 
 
 class GetSuccessUrlProfile:
+    """Mixin перехода на страницу пользователя."""
+
     def get_success_url(self):
         username = self.request.user
         return reverse_lazy('blog:profile', kwargs={'username': username})

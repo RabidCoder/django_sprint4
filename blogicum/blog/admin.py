@@ -9,6 +9,8 @@ admin.site.empty_value_display = '-пусто-'
 
 
 class CategoryAdmin(BlogAdmin):
+    """Интерфейс для категорий."""
+
     list_display = (
         'title',
         'is_published',
@@ -19,6 +21,8 @@ class CategoryAdmin(BlogAdmin):
 
 
 class LocationAdmin(BlogAdmin):
+    """Интерфейс для местоположений."""
+
     list_display = (
         'name',
         'is_published',
@@ -28,6 +32,8 @@ class LocationAdmin(BlogAdmin):
 
 
 class PostAdmin(BlogAdmin):
+    """Интерфейс для постов."""
+
     inlines = [CommentAdmin]
     list_display = (
         'title',

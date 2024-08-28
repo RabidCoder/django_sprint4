@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse
 
 from django.views.generic import (
     CreateView, DeleteView, DetailView, ListView, UpdateView
@@ -23,6 +23,8 @@ from core.utils import get_post_data, post_all_query, post_published_query
 
 
 class IndexListView(ListView):
+    """Главная страница со списком постов."""
+
     model = Post
     template_name = 'blog/index.html'
     queryset = post_published_query()
@@ -30,6 +32,8 @@ class IndexListView(ListView):
 
 
 class CategoryListView(IndexListView):
+    """Страница со списком постов выбранной категории."""
+
     template_name = 'blog/category.html'
     category = None
 
@@ -46,6 +50,8 @@ class CategoryListView(IndexListView):
 
 
 class UserPostsListView(IndexListView):
+    """Страница со списком постов пользователя."""
+
     template_name = 'blog/profile.html'
     author = None
 
@@ -62,6 +68,8 @@ class UserPostsListView(IndexListView):
 
 
 class PostDetailView(DetailView):
+    """Страница выбранного поста."""
+
     model = Post
     template_name = 'blog/detail.html'
     post_data = None
@@ -82,6 +90,8 @@ class PostDetailView(DetailView):
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    """Редактирование профиля пользователя."""
+
     model = User
     form_class = ProfileForm
     template_name = 'blog/user.html'
@@ -91,7 +101,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         username = self.request.user
-        return reverse_lazy('blog:profile', kwargs={'username': username})
+        return reverse('blog:profile', kwargs={'username': username})
 
 
 class PostCreateView(
@@ -99,6 +109,8 @@ class PostCreateView(
     GetSuccessUrlProfile,
     CreateView
 ):
+    """Создание поста."""
+
     form_class = PostForm
 
     def form_valid(self, form):
@@ -112,6 +124,8 @@ class PostUpdateView(
     GetSuccessUrlPostDetail,
     UpdateView
 ):
+    """Редактирование поста."""
+
     form_class = PostForm
 
 
@@ -121,6 +135,7 @@ class PostDeleteView(
     GetSuccessUrlProfile,
     DeleteView
 ):
+    """Удаление поста."""
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -133,11 +148,13 @@ class CommentCreateView(
     GetSuccessUrlPostDetail,
     CreateView
 ):
+    """Написание комментария."""
+
     form_class = CommentForm
     post_data = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.post_data = get_post_data(self.kwargs)
+        self.post_data = get_post_data(self.kwargs['pk'])
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -152,8 +169,10 @@ class CommentUpdateView(
     GetSuccessUrlPostDetail,
     UpdateView
 ):
+    """Редактирование комментария."""
+
     form_class = CommentForm
-    pk_url_kwarg = "comment_pk"
+    pk_url_kwarg = 'comment_pk'
 
 
 class CommentDeleteView(
@@ -162,4 +181,6 @@ class CommentDeleteView(
     GetSuccessUrlPostDetail,
     DeleteView
 ):
-    pk_url_kwarg = "comment_pk"
+    """Удаление комментария."""
+
+    pk_url_kwarg = 'comment_pk'

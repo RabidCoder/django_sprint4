@@ -9,6 +9,8 @@ User = get_user_model()
 
 
 class Category(BaseBlogModel):
+    """Модель категории."""
+
     title = models.CharField('Заголовок', max_length=settings.MAX_FIELD_LENGTH)
     description = models.TextField('Описание')
     slug = models.SlugField(
@@ -30,6 +32,8 @@ class Category(BaseBlogModel):
 
 
 class Location(BaseBlogModel):
+    """Модель местоположения."""
+
     name = models.CharField(
         'Название места',
         max_length=settings.MAX_FIELD_LENGTH
@@ -44,6 +48,8 @@ class Location(BaseBlogModel):
 
 
 class Post(BaseBlogModel):
+    """Модель поста."""
+
     title = models.CharField('Заголовок', max_length=settings.MAX_FIELD_LENGTH)
     text = models.TextField('Текст')
     pub_date = models.DateTimeField(
@@ -81,6 +87,8 @@ class Post(BaseBlogModel):
 
 
 class Comment(models.Model):
+    """Модель комментария."""
+
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
