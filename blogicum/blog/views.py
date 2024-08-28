@@ -2,16 +2,13 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
-
 from django.views.generic import (
     CreateView, DeleteView, DetailView, ListView, UpdateView
 )
 
 from .forms import CommentForm, PostForm, ProfileForm
 from .models import Category, Post, User
-
 from blog.models import Post
-
 from core.mixins import (
     CommentMixin,
     DispatchMixin,
